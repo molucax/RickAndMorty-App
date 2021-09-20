@@ -4,10 +4,6 @@
 
 # Individual Project - Henry Pokemon
 
-<p align="left">
-  <img height="150" src="./pokemon.png" />
-</p>
-
 ## Objetivos del Proyecto
 
 - Construir una App utlizando React, Redux, Node y Sequelize.
