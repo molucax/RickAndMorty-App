@@ -19,10 +19,14 @@
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const server = require('./src/app.js');
 const { conn } = require('./src/db.js');
+const { preloadEpisodes } = require("./src/controllers/episodesController.js")
 
 // Syncing all the models at once.
-conn.sync({ alter: true }).then(() => {
-  server.listen(3001, () => {
+conn.sync({ force: true }).then(() => {
+  server.listen(3001, async () => {
+    console.log("%s loading episodes...");
+    const preload = await preloadEpisodes();
+    console.log("%s " + preload);
     console.log('%s listening at 3001'); // eslint-disable-line no-console
   });
 });
