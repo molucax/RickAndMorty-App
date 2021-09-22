@@ -22,32 +22,72 @@ const addCharacter = async (req, res) => {
 
 const getCharacters = async (req, res, next) => {
 	try {
-		let apiCharacters = (await axios.get("https://rickandmortyapi.com/api/character")).data.results
-		let dbCharacters = await Character.findAll({include: Episode})
-		let characters = dbCharacters.concat(apiCharacters)
-		return res.send(characters);
+		let { name, order, page } = req.query;
+		let apiCharacters;
+		let dbCharacters;
+		let characters = [];
+		page = page ? page : 1
+		const charPerPage = 5;
+		if (name && name !== "") {
+			apicharacters = (await axios.get(`https://rickandmortyapi.com/api/character/?name=${name}`)).data.results
+			dbCharacters = await Character.findAll({
+				where: {
+					name: {
+						[Op.iLike]: `%${name}%`
+					}
+				}
+			})
+			characters = dbCharacters.concat(apiCharacters);
+		}
+		else {
+			apiCharacters = (await axios.get("https://rickandmortyapi.com/api/character")).data.results
+			dbCharacters = await Character.findAll({include: Episode})
+			characters = dbCharacters.concat(apiCharacters)
+		}
+
+		if (order === "asc" || !order) {
+			characters = characters.sort((a, b) => {
+				return a.name.toLowerCase().localeCompare(b.name.toLowerCase())
+			})
+		}
+		else {
+			characters = characters.sort((a, b) => {
+				return b.name.toLowerCase().localeCompare(a.name.toLowerCase())
+			})
+		}
+
+		let result = characters.slice((charPerPage * (page-1)), (charPerPage * (page-1)) + charPerPage)
+		
+		return res.send({
+			result,
+			count: characters.length
+		});
 	}
 	catch(err) {
 		next(err)
 	}
 }
 
-module.exports = {
-	addCharacter
+const getCharacterById = async (req, res, next) => {
+	try {
+		const { id } = req.params;
+		let character;
+		if (isNaN(id)) {
+			character = await Character.findByPk(id)
+		}
+		else {
+			character = (await axios.get(`https://rickandmortyapi.com/api/character/${id}`)).data
+
+		}
+		return res.json(character)
+	}
+	catch (err) {
+		next(err)
+	}
 }
 
-	 // let character= {
-	 //    name,
-	 //    status,
-	 //    gender,
-	 //    image,
-	 //    location
-	 // }
-
-	 // Characters.create(character)
-	 //  .then(character => {
-	 //      character.addEpisodes(episode)
-	 //      res.json({...character, episode})
-	 //  })
-	 //  .catch((error)=> next(error))
-	 // }
+module.exports = {
+	addCharacter,
+	getCharacters,
+	getCharacterById
+}
