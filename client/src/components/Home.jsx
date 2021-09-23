@@ -10,20 +10,21 @@ import Card from "./Card.jsx";
 
 const Home = () => {
 
-	const dispatch = useDispatch();
-	const { characters } = useSelector(state => state);
-	const [page, setPage] = useState(1);
+	const dispatch = useDispatch(); // <--- para poder usar el dispatch
+	const { characters } = useSelector(state => state); // <--- traigo a algo de mi estado "global" (redux)
+	const [page, setPage] = useState(1); // <--- esto es un estado local
 
-	useEffect(() => { // Esto se ejecuta automáticamente cuando se monta el componente.
+	useEffect(() => { 
 		dispatch(getCharacters({}))
-	}, [dispatch]) // Y también se ejecuta cada vez que se invoque una función dispatch.
-
+	}, [dispatch])
+	// useEffect recibe una función como parámetro, la cual se ejecuta por defecto cuando el componente se monta,
+	// y después se vuelve a ejecutar cada vez que el componente se actualice.
 
 	const changePage = (page) => { // Esta función hace 2 cosas:
 
 		dispatch(getCharacters({ page }))
 		// 1.
-		// Despacha una función. 
+		// Despacha una función.
 		// A esa función se le pasa por parámetro un objeto con la info de page.
 		// ¿Qué hace esa función? Andá a leerla al index de actions.
 
