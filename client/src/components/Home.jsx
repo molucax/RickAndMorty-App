@@ -4,6 +4,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { getCharacters } from "../Redux/actions/index.js";
 import Card from "./Card.jsx";
 
+// IMPORTANTE:
+// Esto es un componente, así que si queres seguir el flujo de los comentarios sin marearte
+// deberías empezar a leer desde un evento, por ejemplo un "onClick".
 
 const Home = () => {
 
@@ -11,13 +14,22 @@ const Home = () => {
 	const { characters } = useSelector(state => state);
 	const [page, setPage] = useState(1);
 
-	useEffect(() => {
+	useEffect(() => { // Esto se ejecuta automáticamente cuando se monta el componente.
 		dispatch(getCharacters({}))
-	}, [dispatch])
+	}, [dispatch]) // Y también se ejecuta cada vez que se invoque una función dispatch.
 
-	const changePage = (page) => {
+
+	const changePage = (page) => { // Esta función hace 2 cosas:
+
 		dispatch(getCharacters({ page }))
+		// 1.
+		// Despacha una función. 
+		// A esa función se le pasa por parámetro un objeto con la info de page.
+		// ¿Qué hace esa función? Andá a leerla al index de actions.
+
 		setPage(page)
+		// 2. 
+		// Setea el estado local incrementando o decrementando su valor en 1.
 	}
 
 
@@ -30,7 +42,9 @@ const Home = () => {
 			}
 			<button 
 				disabled={page -1 === 0} 
-				onClick={ () => {changePage(page-1)}}
+				onClick={ () => {changePage(page-1)}} // ARRANCA UN FLUJO:
+				// Cuando se clickea este botón se ejecuta la función: changePage(page-1)
+				// Por parámetro le pasamos (la página actual - 1), o sea la página anterior.
 			>
 				previous
 			</button>
@@ -39,7 +53,9 @@ const Home = () => {
 
 			<button 
 				disabled={characters?.count <= (page * 5)} 
-				onClick={()=>{changePage(page +1)}}
+				onClick={()=>{changePage(page +1)}} // ARRANCA UN FLUJO:
+				// Cuando se clickea este botón se ejecuta la función: changePage(page+1)
+				// Por parámetro le pasamos (la página actual + 1), o sea la página siguiente.
 			>
 				next
 			</button>
