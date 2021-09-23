@@ -1,16 +1,21 @@
 import axios from "axios";
 export const GET_ALL_CHARACTERS = "GET_ALL_CHARACTERS";
-export const RESET_ALL_CHARACTERS = "RESET_ALL_CHARACTERS";
 
-
-// *se despacha desde el componente ---> getCharacters()*
+// *se despacha desde algún componente ---> getCharacters()*
 // Lo que hace esta función es:
-export const getCharacters = () => {
+export const getCharacters = ({ page, order, name }) => {
 	// RETORNA una función, la cual hace cosas asíncronas...
 	return (dispatch) => { // Ok, pero qué hace exactamente esa función?
 		// Primero, va a esta ruta de mi back:
-		axios.get("http://localhost:3001/characters") 
-		// y toma su respuesta.
+		axios.get(`http://localhost:3001/characters?
+			page=${page?page:1}
+			&
+			order=${order?order:""}
+			&
+			name=${name?name:""}
+		`) 
+		// y toma su respuesta. 
+		// (a esa respuesta la podes ir a leer en el return de la ruta)
 		.then(characters => { // La toma, la nombra "characters" y finalmente,
 			// RETORNA el despachamiento de una acción.
 			// (despachamiento de una acción === decirle al reducer "te doy esta action{}, modificá mi estado")
