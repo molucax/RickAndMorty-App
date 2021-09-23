@@ -28,13 +28,13 @@ export default function reducer (state = initialState, { type, payload }) {
 // Y...
 // ¿Pero entonces qué pasó?
 
-// 1. El usuario hizo algo que generó el despache de una acción.
-// ¿Qué era el despache de una acción?
-// Decirle al reducer: "Tomá este objeto y modificá el estado".
+// 1. El usuario hizo algo que generó el despachamiento de una acción.
+// ¿Qué era el despachamiento de una acción?
+// Decirle al reducer: "Agarrá este objeto y modificá el estado".
 
 // 2. El reducer modifica el estado.
 // ¿Y qué pasa al modificarse el estado?
 // El DOM "real" detecta que hubo un cambio en el DOM "virtual".
-// Imita ese cambio en el DOM "real".
+// Se imita ese cambio en el DOM "real" (impacta en nuestra aplicación).
 
 // Terminó el flujo.

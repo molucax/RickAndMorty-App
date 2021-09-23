@@ -10,15 +10,15 @@ export const getCharacters = () => {
 	return (dispatch) => { // Ok, pero qué hace exactamente esa función?
 		// Primero, va a esta ruta de mi back:
 		axios.get("http://localhost:3001/characters") 
-		// y toma lo que retorne su función (para saberlo andá a leer la ruta).
-		.then(characters => { // Lo toma, lo nombra "characters" y finalmente,
+		// y toma su respuesta.
+		.then(characters => { // La toma, la nombra "characters" y finalmente,
 			// RETORNA el despachamiento de una acción.
 			// (despachamiento de una acción === decirle al reducer "te doy esta action{}, modificá mi estado")
 			return dispatch({ 
 				type: GET_ALL_CHARACTERS, 
 				payload: characters.data // Pará, y el payload entonces sería...?
 				// El payload, en este caso, es el objeto que retorna el axios.get() a mi ruta.
-				// Accedemos a .data, porque characters{} viene "directo" del axios.
+				// Accedemos a .data, porque characters{} viene "directo" del axios (trae info adicional que no nos interesa).
 				// Saber qué información tiene el payload es tan fácil como ir a la ruta a leerla.
 			})
 		})
