@@ -1,4 +1,4 @@
-import { GET_ALL_CHARACTERS } from "../actions";
+import { GET_ALL_CHARACTERS, SET_NAME, SET_ORDER, SET_PAGE } from "../actions";
 
 // Hola, soy el reducer.
 
@@ -20,6 +20,22 @@ export default function reducer (state = initialState, { type, payload }) {
 				...state, // Acá no hago más que copiar todo lo que haya en tu estado, 
 				characters: payload // y lo más importante: pisar el contenido de "characters" con el payload. FIN.
 			}
+		case SET_NAME:
+			return {
+				...state,
+				name: payload
+			}
+		case SET_PAGE:
+			return {
+				...state,
+				page: payload
+			}
+		case SET_ORDER:
+			return {
+				...state,
+				order: payload
+			}
+
 		default:
 			return state;
 	}

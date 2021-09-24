@@ -49,7 +49,7 @@ const getCharacters = async (req, res, next) => {
 			characters = dbCharacters.concat(apiCharacters)
 			// characters = [todos los personajes]
 		}
-		// Entonces, esta primera parte de la ruta sólo se ocupa de modificar 
+		// Entonces, esta primera parte de la función sólo se ocupa de decidir 
 		// lo que contiene el array "characters" en una primera instancia.
 
 		// Ahora que ya hay algo en ese array podemos empezar a filtrar y ordenar el contenido:
@@ -86,12 +86,11 @@ const getCharacterById = async (req, res, next) => {
 	try {
 		let { id } = req.params;
 		let character;
-		if (isNaN(id)) {
-			character = await Character.findByPk(id)
+		if (isNaN(id)) { // si el id que llega por params no es un número
+			character = await Character.findByPk(id) // buscalo de la base de datos
 		}
-		else {
+		else { // caso contrario, buscalo de la api
 			character = (await axios.get(`https://rickandmortyapi.com/api/character/${id}`)).data
-
 		}
 		return res.json(character)
 	}

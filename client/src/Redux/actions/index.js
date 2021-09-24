@@ -1,5 +1,8 @@
 import axios from "axios";
 export const GET_ALL_CHARACTERS = "GET_ALL_CHARACTERS";
+export const SET_NAME = "SET_NAME";
+export const SET_ORDER = "SET_ORDER";
+export const SET_PAGE = "SET_PAGE";
 
 // *se despacha desde algún componente ---> getCharacters()*
 // Lo que hace esta función es:
@@ -41,3 +44,24 @@ export const getCharacters = ({ page, order, name }) => {
 	// Punto.
 	// Vamos al reducer.
 } 
+
+export const settingName = (name) => {
+	return {
+		type: SET_NAME,
+		payload: name
+	}
+}
+
+export const settingPage = (page) => {
+	return {
+		type: SET_PAGE,
+		payload: page
+	}
+}
+
+export const settingOrder = (order) => {
+	return {
+		type: SET_ORDER,
+		payload: order
+	}
+}

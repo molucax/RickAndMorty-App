@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getCharacters } from "../Redux/actions/index.js";
+import { getCharacters, settingPage } from "../Redux/actions/index.js";
 import Card from "./Card.jsx";
 
 // IMPORTANTE:
@@ -11,8 +11,9 @@ import Card from "./Card.jsx";
 const Home = () => {
 
 	const dispatch = useDispatch(); // <--- para poder usar el dispatch
-	const { characters } = useSelector(state => state); // <--- traigo a algo de mi estado "global" (redux)
-	const [page, setPage] = useState(1); // <--- esto es un estado local
+	const { characters, name, order, page } = useSelector(state => state); // <--- traigo cosas de mi estado "global" (redux)
+	
+	const [page, setPage] = useState(1);
 
 	useEffect(() => { 
 		dispatch(getCharacters({}))
@@ -22,15 +23,13 @@ const Home = () => {
 
 	const changePage = (page) => { // Esta función hace 2 cosas:
 
-		dispatch(getCharacters({ page }))
+		dispatch(getCharacters({ page, name, order }))
 		// 1.
 		// Despacha una función.
 		// A esa función se le pasa por parámetro un objeto con la info de page.
 		// ¿Qué hace esa función? Andá a leerla al index de actions.
 
-		setPage(page)
-		// 2. 
-		// Setea el estado local incrementando o decrementando su valor en 1.
+		dispatch(settingPage(page))
 	}
 
 
